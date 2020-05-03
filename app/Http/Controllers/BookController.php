@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -82,7 +87,10 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        // Tampilkan single book
+        $book = \App\Book::findOrFail($id);
+
+        return view('books.show', ['book' => $book]);
     }
 
     /**
@@ -149,6 +157,20 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // hapus buku
+        $book = \App\Book::findOrFail($id);
+
+        $book->delete();
+
+        return redirect()->route('books.index')->with('status', 'Book moved to trash');
+    }
+
+    /**
+     * Trash 
+     */
+    public function trash() {
+        $books = \App\Book::onlyTrashed()->paginate(10);
+
+        return view('books.trash', ['books' => $books]);
     }
 }

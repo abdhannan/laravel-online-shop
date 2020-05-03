@@ -9,6 +9,12 @@
 @endsection
 
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="row mb-3">
@@ -62,10 +68,32 @@
                             <td>
                                 <a href="{{ route('books.edit', [$book->id]) }}"
                                     class="btn btn-info btn-sm">Edit</a>
+                                
+                                <a href="{{ route('books.show', [$book->id]) }}"
+                                    class="btn btn-primary btn-sm">Show</a>
+                                
+                                <form action="{{ route('books.destroy', [$book->id]) }}"
+                                method="POST"
+                                class="d-inline"
+                                onsubmit="return confirm('Move book to trash?')">
+                                    @csrf
+                                    <input type="hidden"
+                                    name="_method"
+                                    value="DELETE">
+
+                                    <input type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    value="Trash">
+                                </form>
+
+
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    {{ $books->appends(Request::All())->links() }}
+                </tfoot>
             </table>
         </div>
     </div>

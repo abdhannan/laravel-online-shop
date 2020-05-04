@@ -30,7 +30,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users', 'UserController');
 
 // Trash category
-Route::get('/categories/trash', 'CategoryController@trash')->name('categories.trash');
+Route::get('/categories/trash', 'CategoryController@
+trash')->name('categories.trash');
 
 // Restore category
 Route::get('/categories/{id}/restore/', 'CategoryController@restore')->name('categories.restore');
@@ -49,6 +50,13 @@ Route::get('/ajax/categories/search', 'CategoryController@ajaxSearch');
 
 // Trashed book
 Route::get('/books/trash', 'BookController@trash')->name('books.trash');
+
+// Restore book
+Route::post('/books/{id}/restore', 'BookController@restore')->name('books.restore');
+
+// permanent delete books
+Route::delete('/books/{id}/delete-permanent', 'BookController@deletePermanent')
+->name('books.delete-permanent');
 
 // Book route
 Route::resource('books', 'BookController');

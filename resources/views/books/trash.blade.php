@@ -19,7 +19,21 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <form action="{{ route('books.index') }}">
+                        <div class="input-group">
+                            <input type="text"
+                            name="keyword"
+                            value="{{ Request::get('keyword') }}"
+                            class="form-control"
+                            placeholder="Filter by title">
+                            <div class="input-group-append">
+                                <input type="submit"
+                                class="btn btn-primary" value="Filter">
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="col-md-6">
                     <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">

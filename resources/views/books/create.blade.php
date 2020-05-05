@@ -37,6 +37,9 @@
 
 
     <div class="row">
+        <div class="col-md-12">
+            <a href="{{ route('books.index') }}" class="btn btn-info">Back</a>
+        </div>
         <div class="col-md-8">
             <form action="{{ route('books.store') }}"
             method="POST"

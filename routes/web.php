@@ -60,3 +60,7 @@ Route::delete('/books/{id}/delete-permanent', 'BookController@deletePermanent')
 
 // Book route
 Route::resource('books', 'BookController');
+
+
+// Order route resource
+Route::resource('orders', 'OrderController');

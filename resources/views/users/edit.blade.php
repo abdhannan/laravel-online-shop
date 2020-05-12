@@ -24,9 +24,12 @@
         <input type="text"
         name="name"
         id="name"
-        value="{{ $user->name }}"
+        value="{{ old('name') ? old('name') : $user->name }}"
         placeholder="Full Name"
-        class="form-control">
+        class="form-control {{ $errors->first('name') ? "is-invalid" : "" }}">
+        <div class="invalid-feedback">
+            {{ $errors->first('name') }}
+        </div>
 
         <br>
 
@@ -59,40 +62,59 @@
         <label for="inactive">Inactive</label>
         <br><br>
 
+        <label for="roles">Roles</label> <br>
         <input type="checkbox" 
         {{ in_array("ADMIN", json_decode($user->roles))  ? "checked" : "" }} 
         name="roles[]"
         id="ADMIN"
-        value="ADMIN">
+        value="ADMIN"
+        class="form-control {{ $errors->first('roles') ? "is-invalid" : "" }}">
         <label for="ADMIN">Administrator</label>
 
         <input type="checkbox" 
         {{ in_array("STAFF", json_decode($user->roles)) ? "checked" : "" }} 
         name="roles[]" 
         id="STAFF"
-        value="STAFF">
+        value="STAFF"
+        class="form-control {{ $errors->first('roles') ? "is-invalid" : "" }}">
         <label for="STAFF">Staff</label>
 
         <input type="checkbox"
         {{ in_array("CUSTOMER", json_decode($user->roles)) ? "checked" : "" }}
         name="roles[]"
         id="CUSTOMER"
-        value="CUSTOMER">
+        value="CUSTOMER"
+        class="form-control {{ $errors->first('roles') ? "is-invalid" : "" }}">
         <label for="CUSTOMER">Customer</label>
+
+        <div class="invalida-feedback">
+            {{ $errors->first('roles') }}
+        </div>
+
         <br>
         <br>
         <label for="phone">Phone</label>
         <input type="text"
         name="phone"
         value="{{ $user->phone }}"
-        class="form-control"
         id="phone"
-        class="form-controll">
+        class="form-control {{ $errors->first('phone') ? "is-invalid" : "" }}">
+
+        <div class="invalid-feedback">
+            {{ $errors->first('phone') }}
+        </div>
+        <br>
 
         <label for="address">Address</label>
         <textarea name="address" 
         id="address"
-        class="form-control">{{ $user->address }}</textarea>
+        class="form-control {{ $errors->first('address') ? "is-invalid" : "" }}">
+        {{ old('address') ? old('address') : $user->address }}</textarea>
+        
+        <div class="invalid-feedback">
+            {{ $errors->first('address') }}
+        </div>
+        <br>
 
         <label for="avatar">Avatar Image</label>
         <br> Current avatar: <br>

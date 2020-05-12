@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// Use gate
+use Illuminate\Support\Facades\Gate;
+
 class OrderController extends Controller
 {
 
@@ -11,7 +14,13 @@ class OrderController extends Controller
      * Add constructor
      */
     public function __construct() {
-        return $this->middleware('auth');
+        // return $this->middleware('auth');
+
+        $this->middleware(function($next, $request){
+            if ( Gate::allows('manage-orders') ) return $next($request);
+
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+        });
     }
 
     /**
@@ -19,10 +28,23 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $status = $request->get('status');
+        $buyer_email = $request->get('buyer_email');
+
+        // filter
+        $orders = \App\Order::with('user')
+                            ->with('books')
+                            ->whereHas('user', function($query) use ($buyer_email) {
+                                $query->where('email', 'LIKE', "%$buyer_email%");
+                            })
+                            ->where('status', 'LIKE', "%$status%")
+                            ->paginate(10);
+
         // load view index
-        $orders = \App\Order::with('user')->with('books')->paginate(10);
+        // $orders = \App\Order::with('user')->with('books')->paginate(10);
+
         return view('orders.index', ['orders' => $orders]);
     }
 

@@ -30,14 +30,20 @@
             <input type="text"
             name="name"
             value="{{ $category->name }}"
-            class="form-control">
+            class="form-control {{ $errors->first('name') ? "is-invalid" : "" }}">
+            <div class="invalid-feedback">
+                {{ $errors->first('name') }}
+            </div>
             <br><br>
 
             <label>Category SLug</label>
             <input type="text"
-            name="slud"
+            name="slug"
             value="{{ $category->slug }}"
-            class="form-control">
+            class="form-control {{ $errors->first('slug') ? "" : "" }}">
+            <div class="invalid-feedback">
+                {{ $errors->first('slug') }}
+            </div>
             <br><br>
 
             <label>Current image</label><br>
@@ -50,7 +56,10 @@
             <label>Category Image</label>
             <input type="file"
             name="image"
-            class="form-control">
+            class="form-control {{ $errors->first('image') ? "is-invalid" : "" }}">
+            <div class="invalid-feedback">
+                {{ $errors->first('image') }}
+            </div>
             <span class="text-muted">Kosongkan jika tidak ingin diganti</span>
             <br><br>
             <input type="submit"

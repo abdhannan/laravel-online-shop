@@ -30,8 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users', 'UserController');
 
 // Trash category
-Route::get('/categories/trash', 'CategoryController@
-trash')->name('categories.trash');
+Route::get('/categories/trash', 'CategoryController@trash')->name('categories.trash');
 
 // Restore category
 Route::get('/categories/{id}/restore/', 'CategoryController@restore')->name('categories.restore');

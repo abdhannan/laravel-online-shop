@@ -4,11 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
+
+use Illuminate\Support\Facades\Gate;
+
 class CategoryController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth');
+        // $this->middleware('auth');
+
+        $this->middleware(function( $request, $next ){
+            if( Gate::allows('manage-categories') ) return $next($request);
+
+            abort( 403, 'Anda tidak cukup memiliki hak akses' );
+        });
+
     }
 
     /**
@@ -51,6 +62,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        \Validator::make($request->all(), [
+            "name" => "required|min:3|max:200",
+            "image" => "required|mimes:png,jpg,jpeg|max:2084",
+        ])->validate();
+
         // menambah category
         $name = $request->get('name');
 
@@ -113,12 +129,22 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        // Cek ID mana yg diupdate
+        $category = \App\Category::findOrFail($id);
+
+        \Validator::make($request->all(), [
+            "name" => "required|min:3|max:200",
+            "image" => "required",
+            "slug" => [ 
+                "required",
+                Rule::unique("categories")->ignore($category->slug, "slug")
+            ]
+        ])->validate();
         $name = $request->get('name');
         $slug = $request->get('slug');
 
-        // Cek ID mana yg diupdate
-        $category = \App\Category::findOrFail($id);
+        
 
         // Assign ke nama table
         $category->name = $name;

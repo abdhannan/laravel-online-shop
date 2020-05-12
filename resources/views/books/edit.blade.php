@@ -30,7 +30,10 @@
                 <input type="text"
                 name="title"
                 value="{{ $book->title }}"
-                class="form-control">
+                class="form-control {{ $errors->first('title') ? "is-invalid" : "" }}">
+                <div class="invalid-feedback">
+                    {{ $errors->first('title') }}
+                </div>
                 <br>
 
                 <label for="cover">Cover</label>
@@ -43,25 +46,39 @@
                 <input type="file"
                 name="cover"
                 id="cover"
-                class="form-control">
+                class="form-control {{ $errors->first('cover') ? "is-invalid" : "" }}">
                 <small class="text-muted">Kosongkan jika tidak ingin diganti</small>
+
+                <div class="invalid-feedback">
+                    {{ $errors->first('cover') }}
+                </div>
                 <br><br>
 
                 <label for="slug">Slug</label>
                 <input type="text"
                 name="slug"
                 value="{{ $book->slug }}"
-                class="form-control">
+                class="form-control {{ $errors->first('slug') ? "is-invalid" : "" }}">
+                <div class="invalid-feedback">
+                    {{ $errors->first('slug') }}
+                </div>
                 <br>
 
                 <label for="description">Description</label>
                 <textarea name="description"
-                id="description" class="form-control">{{ $book->description }}</textarea>
+                id="description" class="form-control {{ $errors->first('description') ? "is-invalid" : "" }}"
+                >{{ $book->description }}</textarea>
+                <div class="invalid-feedback">
+                    {{ $errors->first('description') }}
+                </div>
                 <br>
 
                 <label for="categories">Categories</label>
                 <select name="categories[]" 
-                id="categories" class="form-control" multiple></select>
+                id="categories" class="form-control {{ $errors->first('categories') ? "is-invalid" : "" }}" multiple></select>
+                <div class="invalid-feedback">
+                    {{ $errors->first('categories') }}
+                </div>
                 <br>
 
                 <label for="author">Author</label>
@@ -69,22 +86,31 @@
                 name="author" 
                 id="author"
                 value="{{ $book->author }}"
-                class="form-control">
+                class="form-control {{ $errors->first('author') ? "is-invalid" : "" }}">
+                <div class="invalid-feedback">
+                    {{ $errors->first('author') }}
+                </div>
                 <br>
 
                 <label for="publisher">Publisher</label>
                 <input type="text"
                 name="publisher"
                 id="publisher"
-                class="form-control"
+                class="form-control {{ $errors->first('publisher') ? "is-invalid" : "" }}"
                 value="{{ $book->publisher }}">
+                <div class="invalid-feedback">
+                    {{ $errors->first('publisher') }}
+                </div>
                 <br>
 
                 <label for="stock">Stock</label>
                 <input type="number"
                 name="stock"
-                class="form-control"
+                class="form-control {{ $errors->first('stock') ? "is-invalid" : "" }}"
                 value="{{ $book->stock }}">
+                <div class="invalid-feedback">
+                    {{ $errors->first('stock') }}
+                </div>
                 <br><br>
 
                 <label for="price">Price</label>
@@ -92,7 +118,10 @@
                 name="price"
                 min="0"
                 value="{{ $book->price }}"
-                class="form-control">
+                class="form-control {{ $errors->first('price') ? "is-invalid" : "" }}">
+                <div class="invalid-feedback">
+                    {{ $errors->first('price') }}
+                </div>
                 <br>
 
                 <label for="for">Status</label>

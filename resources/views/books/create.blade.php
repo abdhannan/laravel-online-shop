@@ -50,63 +50,87 @@
                 <label for="titke">Title</label>
                 <input type="text"
                 name="title"
-                class="form-control"
+                class="form-control {{ $errors->first('title') ? "is-invalid" : "" }}"
                 placeholder="Title">
+                <div class="invalid-feedback">
+                    {{ $errors->first('title') }}
+                </div>
                 <br>
 
                 <label for="cover">Cover</label>
                 <input type="file"
                 name="cover"
-                class="form-control"
+                class="form-control {{ $errors->first('cover') ? "is-invalid" : "" }}"
                 placeholder="Cover Book">
+                <div class="invalid-feedback">
+                    {{ $errors->first('cover') }}
+                </div>
                 <br>
 
                 <label for="description">Description</label>
                 <textarea name="description" 
                 id="description"
-                class="form-control"
+                class="form-control {{ $errors->first('description') ? "is-invalid" : "" }}"
                 placeholder="Give a description about this book"></textarea>
+                <div class="invalid-feedback">
+                    {{ $errors->first('description') }}
+                </div>
                 <br>
 
                 <label for="categories">Categories</label>
                 <select name="categories[]" 
                 id="categories"
                 multiple
-                class="form-control">
-
+                class="form-control {{ $errors->first('categories') ? "is-invalid" : "" }}">
                 </select>
+                <div class="invalid-feedback">
+                    {{ $errors->first('categories') }}
+                </div>
+                <br>
 
                 <label for="stock">Stock</label>
                 <input type="number"
-                class="form-control"
+                class="form-control {{ $errors->first('stock') ? "is-invalid" : "" }}"
                 id="stock"
                 name="stock"
                 min="0"
                 value="0">
+                <div class="invalid-feedback">
+                    {{ $errors->first('stock') }}
+                </div>
                 <br>
 
                 <label for="author">Author</label>
                 <input type="text"
                 name="author"
                 id="author"
-                class="form-control"
+                class="form-control {{ $errors->first('author') ? "is-invalid" : "" }}"
                 placeholder="Book Author">
+                <div class="invalid-feedback">
+                    {{ $errors->first('author') }}
+                </div>
                 <br>
 
                 <label for="publisher">Publisher</label>
                 <input type="text"
                 name="publisher"
-                class="form-control"
+                class="form-control {{ $errors->first('publisher') ? "is-invalid" : "" }}"
                 id="publisher"
                 placeholder="Publisher">
+                <div class="invalid-feedback">
+                    {{ $errors->first('publisher') }}
+                </div>
                 <br>
 
                 <label for="price">Price</label>
                 <input type="number"
                 name="price"
-                class="form-control"
+                class="form-control {{ $errors->first('price') ? "is-invalid" : "" }}"
                 min="0"
                 placeholder="Book price">
+                <div class="invalid-feedback">
+                    {{ $errors->first('price') }}
+                </div>
                 <br>
 
                 <button class="btn btn-primary"

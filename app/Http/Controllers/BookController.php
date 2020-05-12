@@ -4,11 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// use rule
+use Illuminate\Validation\Rule;
+
+// use gate
+use Illuminate\Support\Facades\Gate;
+
 class BookController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+
+        $this->middleware(function($next, $request){
+            if ( Gate::allows('manage-books') ) return $next($request);
+
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+        });
+
     }
 
     /**
@@ -53,6 +66,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi
+        \Validator::make($request->all(), [
+            "title" => "required|min:5|max:200",
+            "description" => "required|min:10|max:500",
+            "author" => "required|min:3|max:40",
+            "publisher" => "required|min:3|max:200",
+            "price" => "required|digits_between:0,10",
+            "stock" => "required|digits_between:0,10",
+            "cover" => "required|mime_types:jpg,png,jpeg",
+        ])->validate();
+
         // menyimpan data buku
         $new_book = new \App\Book;
         $new_book->title = $request->get('title');
@@ -128,6 +152,21 @@ class BookController extends Controller
     {
         // Update buku
         $book = \App\Book::findOrFail($id);
+
+        // Validasi
+        \Validator::make($request->all(), [
+            "title" => "required|min:5|max:200",
+            "slug" => [
+                "required",
+                Rule::unique("books")->ignore($book->slug, "slug")
+            ],
+            "description" => "required|min:10|max:300",
+            "author" => "required|min:3|max: 200",
+            "publisher" => "required|min:3|max:200",
+            "price" => "required|digits_between:0,10",
+            "stock" => "required|digits_between:0,10",
+            "cover" => "required",
+        ])->validate();
 
         $book->title = $request->get('title');
         $book->slug = $request->get('slug');

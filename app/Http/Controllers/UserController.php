@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use App\User;
 
+use Illuminate\Support\Facades\Gate;
+
 
 class UserController extends Controller
 {
@@ -15,7 +17,13 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+
+        $this->middleware(function($request, $next) {
+            if ( Gate::allows('manage-users') ) return $next($request);
+
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+        });
     }
 
     /**
@@ -67,6 +75,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate
+        $validation = \Validator::make($request->all(), [
+            "name" => "required|min:5|max:100",
+            "username" => "required|min:5|max:20|unique:users",
+            "roles" => "required",
+            "phone" => "required|digits_between:10,12",
+            "address" => "required|min:20|max:200",
+            "avatar" => "required",
+            "email" => "required|email|unique:users",
+            "password" => "required",
+            "password_confirmation" => "required|same:password"
+        ])->validate();
+
         // memasukkan data user
         // instansiasi
         $new_user = new \App\User;
@@ -129,6 +150,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        \Validator::make($request->all(), [
+            "name" => "required|min:5|max:100",
+            "roles" => "required",
+            "phone" => "required|digits_between:10,12",
+            "address" => "required|min:20|max:200",
+        ])->validate();
+
         // update user
         $user = \App\User::findOrFail($id);
 
